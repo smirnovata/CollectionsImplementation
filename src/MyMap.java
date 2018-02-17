@@ -59,9 +59,10 @@ public class MyMap<K, V> implements Map<K, V> {
             for (MapContent content : linkedList) {
                 if (content.key.hashCode() == key.hashCode()) {
                     if (content.key.equals(key)) {
+                        V value1 = content.value;
                         content.key = key;
                         content.value = value;
-                        return null;
+                        return value1;
                     }
                 }
             }
@@ -119,9 +120,7 @@ public class MyMap<K, V> implements Map<K, V> {
     @Override
     public Set<Entry<K, V>> entrySet() {
         Set<Entry<K, V>> entry = new HashSet<>();
-        for (MapContent content : linkedList) {
-            entry.add(content);
-        }
+        entry.addAll(linkedList);
         return entry;
     }
 

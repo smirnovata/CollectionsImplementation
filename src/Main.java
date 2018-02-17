@@ -52,10 +52,11 @@ public class Main {
         System.out.println("Contains12 (true) " + myMap.containsValue(new MyValue("S", "D")));
         System.out.println("Contains13 (false) " + myMap.containsValue(new MyValue("T", "S")));
 
-        System.out.println("size = " + myMap.size());
+        System.out.println("? size = " + myMap.size());
 
 
-        myMap.put(new MyKey(7), new MyValue("T", "S"));
+        value = myMap.put(new MyKey(7), new MyValue("T", "S"));
+        System.out.println(value.name + " " + value.secondname);
 
         value = myMap.get(new MyKey(7));
         System.out.println(value.name + " " + value.secondname);
