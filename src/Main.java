@@ -1,6 +1,9 @@
 import com.sun.org.apache.xpath.internal.operations.Equals;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class Main {
 
@@ -66,6 +69,7 @@ public class Main {
 
         myMap.put(new MyKey(3), new MyValue("Se", "Da"));
         myMap.put(new MyKey(4), new MyValue("Ta", "Smi"));
+        myMap.put(new MyKey(1), new MyValue("Tat", "Sm"));
 
         System.out.println("size = " + myMap.size());
 
@@ -73,9 +77,41 @@ public class Main {
 
         System.out.println("size = " + myMap.size());
 
+        MyMap<MyKey, MyValue> myMap2 = new MyMap<>();
+        System.out.println("(myMap2)size = " + myMap2.size());
+        myMap2.putAll(myMap);
+        System.out.println("(myMap2)size = " + myMap2.size());
 
-//        System.out.println("size = " + myMap.size());
 
+
+        Map<MyKey, MyValue> map = new HashMap<>();
+        map.put(new MyKey(56), new MyValue("A", "S"));
+        map.put(new MyKey(44), new MyValue("I", "S"));
+        map.put(new MyKey(7), new MyValue("I", "S"));
+
+        myMap.putAll(map);
+
+        System.out.println("size = " + myMap.size());
+
+        for (MyKey key : myMap.keySet()) {
+            System.out.print(key.age + " ");
+        }
+        System.out.println();
+
+        for (MyValue value1 : myMap.values()) {
+            System.out.println(value1.name + " " + value1.secondname);
+        }
+        System.out.println("size _ = " + myMap.size());
+
+        for (Map.Entry<MyKey,
+                MyValue> entry : myMap.entrySet()) {
+            MyKey key = entry.getKey();
+            value = entry.getValue();
+            System.out.println(key.age + " " + value.name + " " + value.secondname);
+        }
+
+        myMap.clear();
+        System.out.println("size = " + myMap.size());
 
     }
 
@@ -99,7 +135,6 @@ public class Main {
 
         @Override
         public int hashCode() {
-
             return Objects.hash(name, secondname);
         }
     }

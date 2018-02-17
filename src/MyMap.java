@@ -1,7 +1,5 @@
 import java.util.*;
 
-import static java.util.Objects.deepEquals;
-
 public class MyMap<K, V> implements Map<K, V> {
 
     List<MapContent> linkedList = new LinkedList<>();
@@ -80,6 +78,7 @@ public class MyMap<K, V> implements Map<K, V> {
             if (key.hashCode() == content.key.hashCode()) {
                 if (content.key.equals(key)) {
                     linkedList.remove(content);
+                    return null;
                 }
             }
         }
@@ -88,35 +87,62 @@ public class MyMap<K, V> implements Map<K, V> {
 
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
-        //void putAll(Map<? extends K, ? extends V> map): добавляет в коллекцию все объекты из отображения map
+        for (Entry<? extends K, ? extends V> entry : m.entrySet()) {
+            put(entry.getKey(), entry.getValue());
+        }
     }
+
 
     @Override
     public void clear() {
-        //void clear(): очищает коллекцию
+        linkedList.clear();
     }
 
     @Override
     public Set<K> keySet() {
-        return null;
-        //Set<K> keySet(): возвращает набор всех ключей отображения
+        Set<K> set = new HashSet<>();
+        for (MapContent content : linkedList) {
+            set.add(content.key);
+        }
+        return set;
     }
 
     @Override
     public Collection<V> values() {
-        //Collection<V> values(): возвращает набор всех значений отображения
-        return null;
+        Collection<V> collection = new HashSet<>();
+        for (MapContent content : linkedList) {
+            collection.add(content.value);
+        }
+        return collection;
     }
 
     @Override
     public Set<Entry<K, V>> entrySet() {
-        return null;
-        //Set<Map.Entry<K, V>> entrySet(): возвращает набор элементов коллекции. Все элементы представляют объект Map.Entry
+        Set<Entry<K, V>> entry = new HashSet<>();
+        for (MapContent content : linkedList) {
+            entry.add(content);
+        }
+        return entry;
     }
 
-    private class MapContent {
+    private class MapContent implements Entry<K, V> {
         K key;
-        V value;
+        private V value;
+
+        @Override
+        public K getKey() {
+            return key;
+        }
+
+        @Override
+        public V getValue() {
+            return value;
+        }
+
+        @Override
+        public V setValue(V value) {
+            return this.value = value;
+        }
 
         @Override
         public boolean equals(Object o) {
