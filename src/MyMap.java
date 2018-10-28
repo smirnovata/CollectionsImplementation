@@ -2,7 +2,7 @@ import java.util.*;
 
 public class MyMap<K, V> implements Map<K, V> {
 
-    List<MapContent> linkedList = new LinkedList<>();
+    private List<MapContent> linkedList = new LinkedList<>();
 
     @Override
     public int size() {
@@ -79,7 +79,7 @@ public class MyMap<K, V> implements Map<K, V> {
             if (key.hashCode() == content.key.hashCode()) {
                 if (content.key.equals(key)) {
                     linkedList.remove(content);
-                    return null;
+                    return content.value;
                 }
             }
         }
@@ -119,14 +119,17 @@ public class MyMap<K, V> implements Map<K, V> {
 
     @Override
     public Set<Entry<K, V>> entrySet() {
-        Set<Entry<K, V>> entry = new HashSet<>();
-        entry.addAll(linkedList);
-        return entry;
+        return new HashSet<>(linkedList);
     }
 
-    private class MapContent implements Entry<K, V> {
-        K key;
+     private class MapContent implements Entry<K, V> {
+        private K key;
         private V value;
+
+        MapContent(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
 
         @Override
         public K getKey() {
@@ -154,13 +157,8 @@ public class MyMap<K, V> implements Map<K, V> {
 
         @Override
         public int hashCode() {
-
             return Objects.hash(key, value);
         }
 
-        public MapContent(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
     }
 }
